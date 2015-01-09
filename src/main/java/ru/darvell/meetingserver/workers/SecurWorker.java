@@ -25,14 +25,14 @@ public class SecurWorker implements Worker{
         if (action.equals("getKey")){
             db.connect();
             res = db.checkApiKey(params.get("api_key"));
-            if (res != 0){new Response(-11);}
+            if (res != 0){return new Response(-11);}
             res = db.checkLoginPass(params.get("login"), params.get("pass"));
-            if (res != 0) {new Response(-12);}
+            if (res != 0) {return new Response(-12);}
             String sessionKey = genSessionKey(params.get("login"),
                     params.get("pass"),
                     params.get("api_key"));
             res = db.storeSession(sessionKey);
-            if (res != 0) {new Response(-13);}
+            if (res != 0) {return new Response(-13);}
             return new Response(0, sessionKey);
         }
         db.disconnect();
