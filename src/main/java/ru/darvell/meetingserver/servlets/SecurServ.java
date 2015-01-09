@@ -1,6 +1,7 @@
 package ru.darvell.meetingserver.servlets;
 
 import ru.darvell.meetingserver.utils.Response;
+import ru.darvell.meetingserver.workers.SecurWorker;
 import ru.darvell.meetingserver.workers.UserWorker;
 
 import javax.servlet.ServletException;
@@ -13,43 +14,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Работа с пользователями
+ * Created by darvell on 10.01.15.
  */
-public class UsersServ extends HttpServlet{
+public class SecurServ extends HttpServlet {
+
+
     /**
-     *
+     * Actions:
+     *  getKey - авторизация
      * @param req
      * @param resp
      * @throws ServletException
      * @throws IOException
+     * Errors
      * -9 - Request Error
-     * -10 - can't create user
-     * -11 - can't store user
+     * -11 - API_key error
+     * -12 - Login Pass error
+     * -13 - error create session
+     * -100 - hz
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter printWriter = resp.getWriter();
         String action = req.getParameter("action");
-        if (action.equals("register")){
-            printWriter.println(registerUser(req));
-
+        if (action.equals("getKey")){
+            Response response = doGetKey(req);
+            printWriter.println(response.toString());
         }
     }
 
-    Response registerUser(HttpServletRequest req){
+    Response doGetKey(HttpServletRequest req){
         try {
-            UserWorker userWorker = new UserWorker();
+            SecurWorker securWorker = new SecurWorker();
             Map<String, String> map = new HashMap<String, String>();
             map.put("login", req.getParameter("login"));
             map.put("pass", req.getParameter("pass"));
-            map.put("email", req.getParameter("email"));
-            map.put("action", "addUser");
-            return userWorker.doAction(map);
+            map.put("api_key", req.getParameter("api_key"));
+            map.put("action", "getKey");
+            return securWorker.doAction(map);
         }catch (Exception e){
             return new Response(-9);
         }
     }
-
 }
-//GRANT ALL PRIVILEGES ON meeting.* TO meeting@localhost IDENTIFIED BY 'meetingvjcmrfblah' WITH GRANT OPTION;flush privileges;

@@ -19,6 +19,11 @@
         <servlet-class>ru.darvell.meetingserver.servlets.UsersServ</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>secur</servlet-name>
+        <servlet-class>ru.darvell.meetingserver.servlets.SecurServ</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>main</servlet-name>
         <url-pattern>/</url-pattern>
@@ -41,6 +46,11 @@
     <servlet-mapping>
         <servlet-name>users</servlet-name>
         <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>secur</servlet-name>
+        <url-pattern>/secur</url-pattern>
     </servlet-mapping>
 
 
