@@ -6,7 +6,17 @@
 
     <servlet>
         <servlet-name>main</servlet-name>
-        <servlet-class>ru.darvell.meetingserver.MainServlet</servlet-class>
+        <servlet-class>ru.darvell.meetingserver.servlets.MainServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>ru.darvell.meetingserver.servlets.TestServ</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>users</servlet-name>
+        <servlet-class>ru.darvell.meetingserver.servlets.UsersServ</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -20,14 +30,17 @@
     </servlet-mapping>
 
 
-    <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>ru.darvell.meetingserver.TestServ</servlet-class>
-    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>users</servlet-name>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
 

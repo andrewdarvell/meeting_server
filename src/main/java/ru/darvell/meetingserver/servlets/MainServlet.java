@@ -1,4 +1,4 @@
-package ru.darvell.meetingserver;
+package ru.darvell.meetingserver.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 /**
  * Основной сервлет
  */
-//@WebServlet("meeting/main")
 public class MainServlet extends HttpServlet {
 
     @Override
@@ -21,6 +20,7 @@ public class MainServlet extends HttpServlet {
 //        out.print("<h1>Hello Servlet</h1>");
         req.setAttribute("name", "darvell");
         req.getRequestDispatcher("testpage.jsp").forward(req, resp);
+
     }
 
     @Override

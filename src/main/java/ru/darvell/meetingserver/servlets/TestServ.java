@@ -1,4 +1,4 @@
-package ru.darvell.meetingserver;
+package ru.darvell.meetingserver.servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
