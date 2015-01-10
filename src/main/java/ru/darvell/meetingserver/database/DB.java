@@ -8,6 +8,8 @@ import ru.darvell.meetingserver.utils.MD5;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -17,6 +19,7 @@ import java.util.Calendar;
 public class DB {
     public static final String mySqlLocal = "meeting";
     static boolean connected = false;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public DB(){
         ClassLoader classLoader = getClass().getClassLoader();
@@ -92,31 +95,80 @@ public class DB {
             preparedStatement.setString(2, MD5.getMd5(pass));
             ResultSet rs = preparedStatement.executeQuery();
             int count = 0;
+            int id = -1;
             while (rs.next()){
-                count ++;
+                id = rs.getInt("id");
             }
             rs.close();
             preparedStatement.close();
-            if (count == 1) {
-                return 0;
-            }
-            return -1;
+
+            return id;
         }catch (Exception e){
             return -8;
         }
     }
 
-    public int storeSession(String key){
+    public int storeSession(String key, int userId){
         try{
-            Calendar calendar = Calendar.getInstance();
-            String query = "INSERT INTO `sessions`(`key`, `start_date`)\n" +
-                        "VALUES (?, ?)";
+            if (killUserSessions(userId) == 0) {
+
+                String query = "INSERT INTO `sessions`(`key`, `start_date`, `stop_date`, `uid`, `active`)\n" +
+                        "VALUES (?, ?, ?, ?, 0)";
+                PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+                ps.setString(1, key);
+
+                java.util.Date date1 = new java.util.Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date1);
+                cal.add(Calendar.HOUR, 3);
+                ps.setString(2, dateFormat.format(date1));
+                ps.setString(3, dateFormat.format(cal.getTime()));
+
+                ps.setInt(4, userId);
+                ps.executeUpdate();
+                Worker.commit(mySqlLocal);
+                ps.close();
+                return 0;
+            }else {
+                return -8;
+            }
+        }catch (Exception e){
+            return -8;
+        }
+    }
+
+    public int killUserSessions(int uid){
+        try {
+            String query = "UPDATE `sessions`\n" +
+                    "SET `active` = -1\n" +
+                    "WHERE `uid` = ?";
             PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
-            ps.setString(1, key);
-            ps.setDate(2, new Date(System.currentTimeMillis()));
+            ps.setInt(1, uid);
             ps.executeUpdate();
             Worker.commit(mySqlLocal);
+            ps.close();
             return 0;
+        }catch (Exception e){
+            return -8;
+        }
+    }
+
+    public int checkSessionKey(String key){
+        try {
+            String query = "SELECT `uid`\n" +
+                    "FROM `sessions`\n" +
+                    "WHERE `key` = ?\n" +
+                    "AND `active` = 0";
+            PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+            ps.setString(1, key);
+            ResultSet rs = ps.executeQuery();
+            int uid = -1;
+            while (rs.next()){
+                uid = rs.getInt("uid");
+            }
+            rs.close();
+            ps.close();
+            return uid;
         }catch (Exception e){
             return -8;
         }

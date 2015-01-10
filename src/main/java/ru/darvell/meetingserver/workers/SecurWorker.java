@@ -4,6 +4,8 @@ import ru.darvell.meetingserver.database.DB;
 import ru.darvell.meetingserver.utils.MD5;
 import ru.darvell.meetingserver.utils.Response;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ import java.util.Random;
  */
 public class SecurWorker implements Worker{
     DB db;
+
 
     public SecurWorker(){
         db = new DB();
@@ -26,12 +29,12 @@ public class SecurWorker implements Worker{
             db.connect();
             res = db.checkApiKey(params.get("api_key"));
             if (res != 0){return new Response(-11);}
-            res = db.checkLoginPass(params.get("login"), params.get("pass"));
-            if (res != 0) {return new Response(-12);}
+            int uid = db.checkLoginPass(params.get("login"), params.get("pass"));
+            if (uid < 0) {return new Response(-12);}
             String sessionKey = genSessionKey(params.get("login"),
                     params.get("pass"),
                     params.get("api_key"));
-            res = db.storeSession(sessionKey);
+            res = db.storeSession(sessionKey, uid);
             if (res != 0) {return new Response(-13);}
             return new Response(0, sessionKey);
         }
