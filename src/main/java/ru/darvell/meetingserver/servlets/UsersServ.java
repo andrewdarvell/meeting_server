@@ -25,6 +25,9 @@ public class UsersServ extends HttpServlet{
      * -9 - Request Error
      * -10 - can't create user
      * -11 - can't store user
+     * -12 - can't set status
+     * -13 - can't get status
+     * -99 - session_key error
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,6 +40,17 @@ public class UsersServ extends HttpServlet{
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter printWriter = resp.getWriter();
+        String action = req.getParameter("action");
+        if(action.equals("setStatus")){
+            printWriter.println(setUserStatus(req));
+        }else if(action.equals("getStatus")){
+            printWriter.println(getStatus(req));
+        }
+    }
+
     Response registerUser(HttpServletRequest req){
         try {
             UserWorker userWorker = new UserWorker();
@@ -45,6 +59,32 @@ public class UsersServ extends HttpServlet{
             map.put("pass", req.getParameter("pass"));
             map.put("email", req.getParameter("email"));
             map.put("action", "addUser");
+            return userWorker.doAction(map);
+        }catch (Exception e){
+            return new Response(-9);
+        }
+    }
+
+    Response setUserStatus(HttpServletRequest req){
+        try{
+            UserWorker userWorker = new UserWorker();
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("session_key", req.getParameter("session_key"));
+            map.put("status", req.getParameter("status"));
+            map.put("status_mess",req.getParameter("status_mess"));
+            map.put("action","setStatus");
+            return userWorker.doAction(map);
+        }catch (Exception e){
+            return new Response(-9);
+        }
+    }
+
+    Response getStatus(HttpServletRequest req){
+        try{
+            UserWorker userWorker = new UserWorker();
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("session_key", req.getParameter("session_key"));
+            map.put("action","getStatus");
             return userWorker.doAction(map);
         }catch (Exception e){
             return new Response(-9);

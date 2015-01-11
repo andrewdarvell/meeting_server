@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -171,6 +173,51 @@ public class DB {
             return uid;
         }catch (Exception e){
             return -8;
+        }
+    }
+
+    public int setStatus(int uid, String messId, String message){
+        try{
+            String query = "UPDATE `users`\n" +
+                    "SET `status_id` = ?, `status_mess` = ?\n" +
+                    "WHERE id = ?";
+            PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+            ps.setInt(1, Integer.parseInt(messId));
+            ps.setString(2, message);
+            ps.setInt(3, uid);
+            ps.execute();
+            Worker.commit(mySqlLocal);
+            ps.close();
+            return 0;
+
+        }catch (Exception e){
+            return -8;
+        }
+    }
+
+    public Map<String, String> getStatus(int uid){
+        try{
+            String query = "SELECT `status_id`, `status_mess`\n" +
+                    "FROM `users`\n" +
+                    "WHERE `id` = ?";
+            PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+            ps.setInt(1, uid);
+            ResultSet rs = ps.executeQuery();
+
+            int res = 0;
+            Map<String, String> map = new HashMap<String, String>();
+            while (rs.next()){
+                res++;
+                map.put("status_id", rs.getString("status_id"));
+                map.put("status_mess", rs.getString("status_mess"));
+            }
+            if (res == 1){
+                return map;
+            }else {
+                return null;
+            }
+        }catch (Exception e){
+            return null;
         }
     }
 }

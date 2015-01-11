@@ -1,0 +1,2 @@
+parname:main;type:main;log_file_conf:src/main/resources/log4j.xml
+parname:meeting;type:db;base_type:mysql;login:meeting;password:meetingvjcmrfblah;base:meeting;host:localhost;port:3306

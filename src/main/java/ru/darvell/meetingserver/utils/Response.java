@@ -1,11 +1,16 @@
 package ru.darvell.meetingserver.utils;
 
+import java.util.Map;
+
 /**
  * Created by darvell on 10.01.15.
  */
 public class Response {
     String stringData = null;
     int code = -1;
+    Map<String, String> paramSet = null;
+
+
 
     public Response(int code, String stringData) {
         this.stringData = stringData;
@@ -18,6 +23,10 @@ public class Response {
 
     public Response(){
 
+    }
+
+    public void setParamSet(Map<String, String> paramSet){
+        this.paramSet = paramSet;
     }
 
     public String getStringData() {
@@ -37,7 +46,24 @@ public class Response {
     }
 
     @Override
-    public String toString() {
-        return code+";"+stringData;
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("code:");
+        sb.append(code);
+        sb.append(";");
+        if (stringData != null){
+            sb.append("main:");
+            sb.append(stringData);
+            sb.append(";");
+        }
+        if (paramSet != null){
+            for(String key : paramSet.keySet()){
+                sb.append(key);
+                sb.append(":");
+                sb.append(paramSet.get(key));
+                sb.append(";");
+            }
+        }
+        return sb.toString();
     }
 }
