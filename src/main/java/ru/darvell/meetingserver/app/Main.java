@@ -50,15 +50,15 @@ public class Main {
 //            System.out.println(-9);
 //        }
 
-        try{
-            UserWorker userWorker = new UserWorker();
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("session_key", "2893dc02b886df1bd046b5741692194e");
-            map.put("action","getStatus");
-            System.out.println(userWorker.doAction(map));
-        }catch (Exception e){
-            System.out.println(-9);
-        }
+//        try{
+//            UserWorker userWorker = new UserWorker();
+//            Map<String, String> map = new HashMap<String, String>();
+//            map.put("session_key", "2893dc02b886df1bd046b5741692194e");
+//            map.put("action","getStatus");
+//            System.out.println(userWorker.doAction(map));
+//        }catch (Exception e){
+//            System.out.println(-9);
+//        }
 
     }
 }
