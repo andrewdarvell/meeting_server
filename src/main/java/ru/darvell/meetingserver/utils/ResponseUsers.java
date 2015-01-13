@@ -88,7 +88,6 @@ public class ResponseUsers implements Response{
 
 					Element statusMess = doc.createElement("status_mess");
 					statusMess.appendChild(doc.createTextNode(user.getStatusMess()));
-					statusMess.appendChild(doc.createTextNode(user.getStatusMess()));
 					userNode.appendChild(statusMess);
 
 					users.appendChild(userNode);
