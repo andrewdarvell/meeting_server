@@ -8,6 +8,11 @@ CREATE TABLE `users`(
 	PRIMARY KEY (`id`)
 );
 
+SELECT `id`, `login`, `pass`, `email`, `status_id`, `status_mess`
+FROM `users`
+WHERE `login` LIKE '%new%'
+;
+
 UPDATE `users`
 SET `status_id` = 2, `status_mess` = 'dded'
 WHERE id = 11;
@@ -15,6 +20,8 @@ WHERE id = 11;
 SELECT `status_id`, `status_mess`
 FROM `users`
 WHERE `id` = ?;
+
+SELECT `id`
 
 SELECT id
 FROM users
@@ -35,7 +42,7 @@ FROM `api_keys`
 WHERE `key` =
 
 INSERT INTO `users` (`login`, `pass`, `email`)
-VALUES ('11','11','11');
+VALUES ('newuser','11','11');
 
 CREATE TABLE `sessions`(
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -72,5 +79,11 @@ GRANT ALL PRIVILEGES ON meeting.* TO meeting@localhost IDENTIFIED BY 'meetingvjc
 
  curl --data "action=set_status&status=2&status_mess=mystatus&session_key=2893dc02b886df1bd046b5741692194e" http://localhost:8080/meeting/users
 
+	92e4da84d9d51cf199d2b7289f8d6d3d
+	curl --data "action=setStatus&status=2&status_mess=mystatus&session_key=92e4da84d9d51cf199d2b7289f8d6d3d" http://localhost:8080/meeting/users
+	curl --data "action=findUser&login=new&session_key=92e4da84d9d51cf199d2b7289f8d6d3d" http://localhost:8080/meeting/users
+
+
  curl --data "action=getKey&login=newuser&pass=11&api_key=bcbe3365e6ac95ea2c0343a2395834dd" http://localhost:8080/meeting/secur
+ http://localhost:8080/meeting/users?action=register&login=newuser&pass=11&email=11
 

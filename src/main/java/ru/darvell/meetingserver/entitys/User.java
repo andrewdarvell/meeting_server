@@ -28,6 +28,15 @@ public class User {
         this.email = email;
     }
 
+    public User(int id, String login, String email, int statusId, String statusMess, boolean stored) {
+        this.id = id;
+        this.login = login;
+        this.email = email;
+        this.statusId = statusId;
+        this.statusMess = statusMess;
+        this.stored = stored;
+    }
+
     public int getId() {
         return id;
     }

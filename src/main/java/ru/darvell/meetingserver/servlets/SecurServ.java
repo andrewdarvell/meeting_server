@@ -1,8 +1,8 @@
 package ru.darvell.meetingserver.servlets;
 
 import ru.darvell.meetingserver.utils.Response;
+import ru.darvell.meetingserver.utils.ResponseParams;
 import ru.darvell.meetingserver.workers.SecurWorker;
-import ru.darvell.meetingserver.workers.UserWorker;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -53,7 +53,7 @@ public class SecurServ extends HttpServlet {
             map.put("action", "getKey");
             return securWorker.doAction(map);
         }catch (Exception e){
-            return new Response(-9);
+            return new ResponseParams(-9);
         }
     }
 }

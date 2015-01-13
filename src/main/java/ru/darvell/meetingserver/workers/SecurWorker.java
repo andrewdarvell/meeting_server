@@ -3,9 +3,8 @@ package ru.darvell.meetingserver.workers;
 import ru.darvell.meetingserver.database.DB;
 import ru.darvell.meetingserver.utils.MD5;
 import ru.darvell.meetingserver.utils.Response;
+import ru.darvell.meetingserver.utils.ResponseParams;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Random;
 
@@ -22,24 +21,24 @@ public class SecurWorker implements Worker{
 
     @Override
     public Response doAction(Map<String, String> params) {
-        Response resp = new Response();
+        Response resp = new ResponseParams();
         String action = params.get("action");
         int res;
         if (action.equals("getKey")){
             db.connect();
             res = db.checkApiKey(params.get("api_key"));
-            if (res != 0){return new Response(-11);}
+            if (res != 0){return new ResponseParams(-11);}
             int uid = db.checkLoginPass(params.get("login"), params.get("pass"));
-            if (uid < 0) {return new Response(-12);}
+            if (uid < 0) {return new ResponseParams(-12);}
             String sessionKey = genSessionKey(params.get("login"),
                     params.get("pass"),
                     params.get("api_key"));
             res = db.storeSession(sessionKey, uid);
-            if (res != 0) {return new Response(-13);}
-            return new Response(0, sessionKey);
+            if (res != 0) {return new ResponseParams(-13);}
+            return new ResponseParams(0, sessionKey);
         }
         db.disconnect();
-        return new Response(-100);
+        return new ResponseParams(-100);
     }
 
     public String genSessionKey(String login, String pass, String api_key){

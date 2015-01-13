@@ -1,16 +1,11 @@
 package ru.darvell.meetingserver.app;
 
 
-import ru.darvell.meetingserver.database.DB;
-import ru.darvell.meetingserver.utils.Response;
-import ru.darvell.meetingserver.workers.SecurWorker;
+import ru.darvell.meetingserver.utils.ResponseParams;
 import ru.darvell.meetingserver.workers.UserWorker;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class Main {
     public static void main(String[] args){
@@ -59,6 +54,17 @@ public class Main {
 //        }catch (Exception e){
 //            System.out.println(-9);
 //        }
+
+        try{
+            UserWorker userWorker = new UserWorker();
+            Map<String, String> map = new HashMap<>();
+            map.put("session_key", "92e4da84d9d51cf199d2b7289f8d6d3d");
+            map.put("action","findUser");
+            map.put("login", "new");
+            System.out.println(userWorker.doAction(map));
+        }catch (Exception e){
+            System.out.println(new ResponseParams(-9));
+        }
 
     }
 }

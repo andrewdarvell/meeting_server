@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -211,12 +212,46 @@ public class DB {
                 map.put("status_id", rs.getString("status_id"));
                 map.put("status_mess", rs.getString("status_mess"));
             }
+            rs.close();
+            ps.close();
             if (res == 1){
                 return map;
             }else {
                 return null;
             }
         }catch (Exception e){
+            return null;
+        }
+    }
+
+    public ArrayList<User> findUsers(String login){
+        try{String query = "SELECT `id`, `login`, `pass`, `email`, `status_id`, `status_mess`\n" +
+                    "FROM `users`\n" +
+                    "WHERE `login` LIKE ?";
+
+            PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+            ps.setString(1, "%" + login + "%");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<User> users = new ArrayList<>();
+            while (rs.next()){
+                User user = new User(rs.getInt("id"),
+                                        rs.getString("login"),
+                                        rs.getString("email"),
+                                        rs.getInt("status_id"),
+                                        rs.getString("status_mess"),
+                                        true
+                                        );
+                users.add(user);
+            }
+            rs.close();
+            ps.close();
+            if (users.size() > 0){
+                return users;
+            }else {
+                return null;
+            }
+        }catch (Exception e){
+            System.out.println(e.toString());
             return null;
         }
     }
