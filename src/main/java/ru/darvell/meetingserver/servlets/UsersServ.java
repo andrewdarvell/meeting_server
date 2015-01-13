@@ -1,6 +1,5 @@
 package ru.darvell.meetingserver.servlets;
 
-import org.w3c.dom.Element;
 import ru.darvell.meetingserver.utils.Response;
 import ru.darvell.meetingserver.utils.ResponseParams;
 import ru.darvell.meetingserver.workers.UserWorker;
@@ -29,6 +28,7 @@ public class UsersServ extends HttpServlet{
      * -11 - can't store user
      * -12 - can't set status
      * -13 - can't get status
+     * -14 - can't find user
      * -99 - session_key error
      */
     @Override
