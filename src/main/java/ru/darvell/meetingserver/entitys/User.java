@@ -8,8 +8,8 @@ public class User {
     String login;
     String pass;
     String email;
-    int statusId;
-    String statusMess;
+    int statusId = -1;
+    String statusMess = "";
     boolean stored;
 
     public User(int id, String login, String pass, String email, int statusId, String statusMess, boolean stored) {
@@ -78,7 +78,11 @@ public class User {
     }
 
     public String getStatusMess() {
-        return statusMess;
+        if (statusMess == null){
+            return "";
+        }else {
+            return statusMess;
+        }
     }
 
     public void setStatusMess(String statusMess) {
@@ -91,5 +95,18 @@ public class User {
 
     public void setStored(boolean stored) {
         this.stored = stored;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", pass='" + pass + '\'' +
+                ", email='" + email + '\'' +
+                ", statusId=" + statusId +
+                ", statusMess='" + statusMess + '\'' +
+                ", stored=" + stored +
+                '}';
     }
 }

@@ -21,7 +21,6 @@ public class SecurWorker implements Worker{
 
     @Override
     public Response doAction(Map<String, String> params) {
-        Response resp = new ResponseParams();
         String action = params.get("action");
         int res;
         if (action.equals("getKey")){

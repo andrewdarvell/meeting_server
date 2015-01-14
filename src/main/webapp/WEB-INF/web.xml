@@ -24,6 +24,11 @@
         <servlet-class>ru.darvell.meetingserver.servlets.SecurServ</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>friends</servlet-name>
+        <servlet-class>ru.darvell.meetingserver.servlets.FriendsServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>main</servlet-name>
         <url-pattern>/</url-pattern>
@@ -53,5 +58,9 @@
         <url-pattern>/secur</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>friends</servlet-name>
+        <url-pattern>/friends</url-pattern>
+    </servlet-mapping>
 
 </web-app>

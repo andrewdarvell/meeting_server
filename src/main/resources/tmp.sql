@@ -87,3 +87,15 @@ GRANT ALL PRIVILEGES ON meeting.* TO meeting@localhost IDENTIFIED BY 'meetingvjc
  curl --data "action=getKey&login=newuser&pass=11&api_key=bcbe3365e6ac95ea2c0343a2395834dd" http://localhost:8080/meeting/secur
  http://localhost:8080/meeting/users?action=register&login=newuser&pass=11&email=11
 
+11 newuser - 2893dc02b886df1bd046b5741692194e
+12 darvell - feae65b58ff554b190603d5cc46b745d
+
+2893dc02b886df1bd046b5741692194e
+curl --data "action=getKey&login=darvell&pass=11&api_key=bcbe3365e6ac95ea2c0343a2395834dd" http://localhost:8080/meeting/secur
+
+curl --data "action=findUser&login=new&session_key=2893dc02b886df1bd046b5741692194e" http://localhost:8080/meeting/users
+curl --data "action=addFriendRequest&friendId=12&session_key=2893dc02b886df1bd046b5741692194e" http://localhost:8080/meeting/friends
+
+curl --data "action=addFriendRequest&friendId=12&session_key=2893dc02b886df1bd046b5741692194e" http://localhost:8080/meeting/friends
+
+curl --data "action=commitFriend&friendId=11&session_key=feae65b58ff554b190603d5cc46b745d" http://localhost:8080/meeting/friends

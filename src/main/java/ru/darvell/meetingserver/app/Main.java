@@ -2,6 +2,7 @@ package ru.darvell.meetingserver.app;
 
 
 import ru.darvell.meetingserver.utils.ResponseParams;
+import ru.darvell.meetingserver.workers.FriendsWorker;
 import ru.darvell.meetingserver.workers.UserWorker;
 
 import java.util.HashMap;
@@ -55,15 +56,26 @@ public class Main {
 //            System.out.println(-9);
 //        }
 
+//        try{
+//            UserWorker userWorker = new UserWorker();
+//            Map<String, String> map = new HashMap<>();
+//            map.put("session_key", "2893dc02b886df1bd046b5741692194e");
+//            map.put("action","findUser");
+//            map.put("login", "darvell");
+//            System.out.println(userWorker.doAction(map));
+//        }catch (Exception e){
+//
+//            e.printStackTrace();
+//        }
+
         try{
-            UserWorker userWorker = new UserWorker();
+            FriendsWorker friendsWorker = new FriendsWorker();
             Map<String, String> map = new HashMap<>();
-            map.put("session_key", "92e4da84d9d51cf199d2b7289f8d6d3d");
-            map.put("action","findUser");
-            map.put("login", "new");
-            System.out.println(userWorker.doAction(map));
+            map.put("session_key", "2893dc02b886df1bd046b5741692194e");
+            map.put("action","getFriendRequests");
+            System.out.println(friendsWorker.doAction(map));
         }catch (Exception e){
-            System.out.println(new ResponseParams(-9));
+            e.printStackTrace();
         }
 
     }

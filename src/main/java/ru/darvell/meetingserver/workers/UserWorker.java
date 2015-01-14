@@ -1,6 +1,8 @@
 package ru.darvell.meetingserver.workers;
 
 import ru.darvell.meetingserver.database.DB;
+import ru.darvell.meetingserver.database.FriendshipQuerys;
+import ru.darvell.meetingserver.database.UserQuerys;
 import ru.darvell.meetingserver.entitys.User;
 import ru.darvell.meetingserver.utils.Response;
 import ru.darvell.meetingserver.utils.ResponseParams;
@@ -97,7 +99,7 @@ public class UserWorker implements Worker{
         db.connect();
         int uid = db.checkSessionKey(params.get("session_key"));
         if (uid < 0){return new ResponseParams(-99);}
-        ArrayList<User> resSet = db.findUsers(params.get("login"));
+        ArrayList<User> resSet = UserQuerys.findUsers(params.get("login"));
         ResponseUsers response = new ResponseUsers(-14);
         if (resSet != null){
             response.setCode(0);
