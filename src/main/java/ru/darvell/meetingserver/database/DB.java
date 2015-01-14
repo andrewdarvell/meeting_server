@@ -3,6 +3,7 @@ package ru.darvell.meetingserver.database;
 import ru.darvell.dbwork.Worker;
 import ru.darvell.meetingserver.entitys.User;
 import ru.darvell.meetingserver.utils.MD5;
+import ru.darvell.meetingserver.utils.Response;
 
 
 import java.sql.Date;
@@ -255,4 +256,57 @@ public class DB {
             return null;
         }
     }
+
+    public int checkIfFriend(String uid, String fuid){
+        try{
+            String query = "SELECT id\n" +
+                    "FROM `friendship`\n" +
+                    "WHERE `uid` = ?\n" +
+                    "AND `friend_uid` = ?";
+            PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+            ps.setString(1, uid);
+            ps.setString(2, fuid);
+            ResultSet rs = ps.executeQuery();
+            int res = 0;
+            while (rs.next()){
+                res++;
+            }
+            rs.close();
+            ps.close();
+            if (res == 0){
+                return 0;
+            }else {
+                return -1;
+            }
+        }catch (Exception e){
+            return -8;
+        }
+    }
+
+    public User getUserByID(int uid){
+        try{
+            String query = "SELECT `id`, `login`, `pass`, `email`, `status_id`, `status_mess`\n" +
+                    "FROM `users`\n" +
+                    "WHERE `id` = ?";
+            PreparedStatement ps = Worker.getDbStatement(mySqlLocal, query);
+            ps.setInt(1, uid);
+            ResultSet rs = ps.executeQuery();
+            User user = null;
+            while (rs.next()) {
+                user = new User(rs.getInt("id"),
+                        rs.getString("login"),
+                        rs.getString("email"),
+                        rs.getInt("status_id"),
+                        rs.getString("status_mess"),
+                        true);
+            }
+            rs.close();
+            ps.close();
+            return user;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+//    public ArrayList<User> getFriendRequests()
 }

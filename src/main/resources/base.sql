@@ -35,6 +35,10 @@ CREATE TABLE `friendship`(
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `friendship_request`(
 
-)
+CREATE TABLE `friendship_request`(
+	`id` INT(11) NOT NUll AUTO_INCREMENT,
+	`uid1` INT(11) NOT NULL,
+	`uid2` INT(11) NOT NULL,
+	PRIMARY KEY(`id`)
+);
