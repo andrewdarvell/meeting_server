@@ -4,6 +4,7 @@ import ru.darvell.dbwork.Worker;
 import ru.darvell.meetingserver.entitys.Schedule;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,10 +23,10 @@ public class ScheduleQuerys {
 					"VALUES (?, ?, ?, ?, ?)";
 			PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
 			ps.setInt(1, schedule.getUid());
-			ps.setString(2, dateFormat.format(schedule.getDate1()));
-			ps.setString(3, dateFormat.format(schedule.getDate2()));
+			ps.setString(2, schedule.getDate1());
+			ps.setString(3, schedule.getDate2());
 			ps.setInt(4, schedule.getId());
-			ps.setString(5, schedule.getstatusMess());
+			ps.setString(5, schedule.getStatusMess());
 			ps.executeUpdate();
 			Worker.commit(DB.mySqlLocal);
 			ps.close();
@@ -57,7 +58,7 @@ public class ScheduleQuerys {
 					"WHERE ";
 			PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
 			ps.setInt(1, schedule.getId());
-			ps.setString(2, schedule.getstatusMess());
+			ps.setString(2, schedule.getStatusMess());
 			ps.executeUpdate();
 			Worker.commit(DB.mySqlLocal);
 			ps.close();
@@ -67,13 +68,62 @@ public class ScheduleQuerys {
 		}
 	}
 
-//	public static Schedule getScheduleById(int sid){
-//		try{
-//
-//		}catch (Exception e){
-//
-//		}
-//	}
+	public static Schedule getScheduleById(int uid, int sid){
+		try{
+			String query = "SELECT `id`, `uid`,`date1`, `date2`, `status_id`, `status_mess`\n" +
+							"FROM `schedule`\n" +
+							"WHERE `uid` = ? AND `id` = ?";
+			PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+			ps.setInt(1, uid);
+			ps.setInt(2, sid);
+			ResultSet rs = ps.executeQuery();
+			Schedule schedule = null;
+			while (rs.next()){
+				schedule = new Schedule(rs.getInt("id"),
+						rs.getInt("uid"),
+						rs.getString("date1"),
+						rs.getString("date2"),
+						rs.getInt("status_id"),
+						rs.getString("status_mess"),
+						true);
+			}
+			rs.close();
+			ps.close();
+			return schedule;
+		}catch (Exception e){
+			return null;
+		}
+	}
 
+	public static ArrayList<Schedule> getUserSchedules(int uid){
+		try{
+			String query = "SELECT `id`, `uid`,`date1`, `date2`, `status_id`, `status_mess`\n" +
+					"FROM `schedule`\n" +
+					"WHERE `uid` = ?";
+			PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+			ps.setInt(1, uid);
+			ResultSet rs = ps.executeQuery();
+			ArrayList<Schedule> schedules = new ArrayList<>();
+			while (rs.next()){
+				Schedule schedule = new Schedule(rs.getInt("id"),
+									rs.getInt("uid"),
+									rs.getString("date1"),
+									rs.getString("date2"),
+									rs.getInt("status_id"),
+									rs.getString("status_mess"),
+									true);
+				schedules.add(schedule);
+			}
+			rs.close();
+			ps.close();
+			if (schedules.size()>0){
+				return schedules;
+			}else {
+				return null;
+			}
+		}catch (Exception e){
+			return null;
+		}
+	}
 
 }

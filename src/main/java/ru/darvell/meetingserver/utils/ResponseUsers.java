@@ -39,7 +39,6 @@ public class ResponseUsers implements Response{
 	@Override
 	public void setStringData(String stringData) {
 		this.stringData = stringData;
-
 	}
 
 	@Override

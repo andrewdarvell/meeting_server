@@ -8,13 +8,13 @@ import java.util.Date;
 public class Schedule {
 	int id;
 	int uid;
-	Date date1;
-	Date date2;
+	String date1;
+	String date2;
 	int statusId;
 	String statusMess;
 	boolean stored = false;
 
-	public Schedule(int uid, Date date1, Date date2, int statusId, String statusMess, boolean stored) {
+	public Schedule(int uid, String date1, String date2, int statusId, String statusMess, boolean stored) {
 		this.uid = uid;
 		this.date1 = date1;
 		this.date2 = date2;
@@ -23,7 +23,7 @@ public class Schedule {
 		this.stored = stored;
 	}
 
-	public Schedule(int id, int uid, Date date1, Date date2, int statusId, String statusMess, boolean stored) {
+	public Schedule(int id, int uid, String date1, String date2, int statusId, String statusMess, boolean stored) {
 		this.id = id;
 		this.uid = uid;
 		this.date1 = date1;
@@ -49,19 +49,19 @@ public class Schedule {
 		this.id = id;
 	}
 
-	public Date getDate1() {
+	public String getDate1() {
 		return date1;
 	}
 
-	public void setDate1(Date date1) {
+	public void setDate1(String date1) {
 		this.date1 = date1;
 	}
 
-	public Date getDate2() {
+	public String getDate2() {
 		return date2;
 	}
 
-	public void setDate2(Date date2) {
+	public void setDate2(String date2) {
 		this.date2 = date2;
 	}
 
@@ -73,7 +73,7 @@ public class Schedule {
 		this.statusId = statusId;
 	}
 
-	public String getstatusMess() {
+	public String getStatusMess() {
 		if (statusMess == null){
 			return "";
 		}else {
