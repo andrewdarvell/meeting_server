@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by darvell on 14.01.15.
+ * Работа со списком друзей
  */
-public class FriendsServlet extends HttpServlet {
+public class FriendsServ extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,6 +29,10 @@ public class FriendsServlet extends HttpServlet {
             printWriter.println(getFriendRequests(req).toString());
         }else if(action.equals("commitFriend")){
             printWriter.println(commitFriend(req).toString());
+        }else if(action.equals("getFriends")){
+            printWriter.println(getFriends(req).toString());
+        }else if(action.equals("delFriendship")){
+            printWriter.println(delFriendship(req).toString());
         }
     }
 
@@ -69,6 +73,32 @@ public class FriendsServlet extends HttpServlet {
             return new ResponseParams(-9);
         }
     }
+
+    Response getFriends(HttpServletRequest req){
+        try{
+            FriendsWorker friendsWorker = new FriendsWorker();
+            Map<String, String> map = new HashMap<>();
+            map.put("session_key", req.getParameter("session_key"));
+            map.put("action","getFriends");
+            return friendsWorker.doAction(map);
+        }catch (Exception e){
+            return new ResponseParams(-9);
+        }
+    }
+
+    Response delFriendship(HttpServletRequest req){
+        try{
+            FriendsWorker friendsWorker = new FriendsWorker();
+            Map<String, String> map = new HashMap<>();
+            map.put("session_key", req.getParameter("session_key"));
+            map.put("action","delFriendship");
+            map.put("friend_id", req.getParameter("friend_id"));
+            return friendsWorker.doAction(map);
+        }catch (Exception e){
+            return new ResponseParams(-9);
+        }
+    }
+
 
 
 }

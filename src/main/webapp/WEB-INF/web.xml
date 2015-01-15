@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>friends</servlet-name>
-        <servlet-class>ru.darvell.meetingserver.servlets.FriendsServlet</servlet-class>
+        <servlet-class>ru.darvell.meetingserver.servlets.FriendsServ</servlet-class>
     </servlet>
 
     <servlet-mapping>

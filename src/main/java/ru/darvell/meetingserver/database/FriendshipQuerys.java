@@ -139,5 +139,50 @@ public class FriendshipQuerys {
         }
     }
 
+    public static ArrayList<User> getFriends(int uid){
+        try{
+            String query = "SELECT `friend_uid`\n" +
+                            "FROM `friendship`\n" +
+                            "WHERE uid = ?";
+            PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+            ps.setInt(1, uid);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<User> users = new ArrayList<>();
+            while (rs.next()){
+                int tmpUid = rs.getInt("friend_uid");
+                User user = UserQuerys.getUserByID(tmpUid);
+                if (user != null){
+                    users.add(user);
+                }
+            }
+            rs.close();
+            ps.close();
+            if (users.size() > 0){
+                return users;
+            }else {
+                return null;
+            }
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public static int delFriendship(int uid1, int uid2){
+        try{
+            String query = "DELETE FROM `friendship`\n" +
+                            "WHERE `uid` = ? AND `friend_uid` = ?";
+            PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+            ps.setInt(1, uid1);
+            ps.setInt(2, uid2);
+            ps.executeUpdate();
+            ps.setInt(1, uid2);
+            ps.setInt(2, uid1);
+            ps.executeUpdate();
+            Worker.commit(DB.mySqlLocal);
+            return 0;
+        }catch (Exception e){
+            return -8;
+        }
+    }
 
 }

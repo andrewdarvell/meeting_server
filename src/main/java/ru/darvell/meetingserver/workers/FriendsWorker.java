@@ -33,7 +33,12 @@ public class FriendsWorker implements Worker {
             response = getRequests(params);
         }else if (action.equals("commitFriend")){
             response = commitFriend(params);
+        }else if (action.equals("getFriends")){
+            response = getFriends(params);
+        }else if (action.equals("delFriendship")){
+            response = delFriendship(params);
         }
+
 
         db.disconnect();
         return response;
@@ -47,8 +52,7 @@ public class FriendsWorker implements Worker {
         User friend = UserQuerys.getUserByID(Integer.valueOf(params.get("friendId")));
         if (friend == null){return new ResponseParams(-10);}
         res = FriendshipQuerys.checkIfFriend(uid, friend.getId());
-        if (res != 0) {
-            return new ResponseParams(-11);}
+        if (res != 0) {return new ResponseParams(-11);}
         res = FriendshipQuerys.checkRequestExist(uid, friend.getId());
         if (res != 0){return new ResponseParams(-12);}
         if (FriendshipQuerys.addRequest(uid, friend.getId()) != 0){return new ResponseParams(-13);}
@@ -84,7 +88,29 @@ public class FriendsWorker implements Worker {
         return response;
     }
 
+    Response getFriends(Map<String, String> params){
+        int uid = db.checkSessionKey(params.get("session_key"));
+        if (uid < 0){return new ResponseParams(-99);}
+        ArrayList<User> resSet = FriendshipQuerys.getFriends(uid);
+        ResponseUsers response = new ResponseUsers(-16);
+        if (resSet != null){
+            response.setCode(0);
+            response.setUserSet(resSet);
+        }
+        return response;
+    }
 
+    Response delFriendship(Map<String, String> params){
+        int res;
+        int uid = db.checkSessionKey(params.get("session_key"));
+        if (uid < 0){return new ResponseParams(-99);}
+        User friend = UserQuerys.getUserByID(Integer.valueOf(params.get("friendId")));
+        if (friend == null){return new ResponseParams(-10);}
+        res = FriendshipQuerys.checkIfFriend(uid, friend.getId());
+        if (res != 0){return new ResponseParams(-11);}
+        res = FriendshipQuerys.delFriendship(uid, friend.getId());
+        if (res != 0){return new ResponseParams(-17);}
+        return new ResponseParams(0);
 
-
+    }
 }
