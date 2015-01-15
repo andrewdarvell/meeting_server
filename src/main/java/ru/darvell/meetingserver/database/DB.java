@@ -48,6 +48,22 @@ public class DB {
         }
     }
 
+    public static int getLastInsertID(){
+        try{
+            String query = "SELECT LAST_INSERT_ID()";
+            PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+            ResultSet rs = ps.executeQuery();
+            int id = 0;
+            while (rs.next()){
+                id = rs.getInt(1);
+            }
+            return id;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+
     public int addUser(User user){
         try {
             String query = "INSERT INTO `users` (`login`, `pass`, `email`)\n" +

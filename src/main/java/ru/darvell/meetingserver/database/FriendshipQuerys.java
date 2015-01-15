@@ -179,6 +179,7 @@ public class FriendshipQuerys {
             ps.setInt(2, uid1);
             ps.executeUpdate();
             Worker.commit(DB.mySqlLocal);
+            ps.close();
             return 0;
         }catch (Exception e){
             return -8;

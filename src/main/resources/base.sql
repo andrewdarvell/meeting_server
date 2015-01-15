@@ -44,6 +44,7 @@ CREATE TABLE `friendship_request`(
 
 CREATE TABLE `schedule`(
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`uid` INT(11) NOT NULL,
 	`date1` DATETIME,
 	`date2` DATETIME,
 	`status_id` INT(11),
