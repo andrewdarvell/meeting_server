@@ -35,10 +35,18 @@ CREATE TABLE `friendship`(
     PRIMARY KEY (`id`)
 );
 
-
 CREATE TABLE `friendship_request`(
 	`id` INT(11) NOT NUll AUTO_INCREMENT,
 	`uid1` INT(11) NOT NULL,
 	`uid2` INT(11) NOT NULL,
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `schedule`(
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`date1` DATETIME,
+	`date2` DATETIME,
+	`status_id` INT(11),
+	`status_mess` CHAR(255),
 	PRIMARY KEY(`id`)
 );

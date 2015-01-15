@@ -38,8 +38,6 @@ public class FriendsWorker implements Worker {
         }else if (action.equals("delFriendship")){
             response = delFriendship(params);
         }
-
-
         db.disconnect();
         return response;
     }

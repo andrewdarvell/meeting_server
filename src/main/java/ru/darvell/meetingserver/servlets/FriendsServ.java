@@ -3,7 +3,6 @@ package ru.darvell.meetingserver.servlets;
 import ru.darvell.meetingserver.utils.Response;
 import ru.darvell.meetingserver.utils.ResponseParams;
 import ru.darvell.meetingserver.workers.FriendsWorker;
-import ru.darvell.meetingserver.workers.UserWorker;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -98,7 +97,4 @@ public class FriendsServ extends HttpServlet {
             return new ResponseParams(-9);
         }
     }
-
-
-
 }
