@@ -66,6 +66,11 @@ public class UserWorker implements Worker{
         db.connect();
         res = createUser(params);
         if (res != 0){return new ResponseParams(-10);}
+        //ПРоверяем логин на дубли
+        if (UserQuerys.checkUserLogin(user) != 0){return new ResponseParams(-15);}
+        //Проверяем почту на дубли
+        if (UserQuerys.checkUserEmail(user) != 0){return new ResponseParams(-16);}
+        //Пытаемся сохранить в базу
         res = storeUser();
         if (res != 0){return new ResponseParams(-11);}
         return new ResponseParams(0);

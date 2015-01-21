@@ -68,4 +68,50 @@ public class UserQuerys {
             return null;
         }
     }
+
+    public static int checkUserLogin(User user){
+        try{
+            String query = "SELECT `login`" +
+                    "FROM `users`\n" +
+                    "WHERE `login` = ?";
+
+            PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+            ps.setString(1, user.getLogin());
+            ResultSet rs = ps.executeQuery();
+            int count = 0;
+            while (rs.next()){
+                count ++;
+            }
+            rs.close();
+            ps.close();
+            return count;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return -8;
+        }
+    }
+
+    public static int checkUserEmail(User user){
+        try{
+            String query = "SELECT `email`" +
+                    "FROM `users`\n" +
+                    "WHERE `email` = ?";
+
+            PreparedStatement ps = Worker.getDbStatement(DB.mySqlLocal, query);
+            ps.setString(1, user.getEmail());
+            ResultSet rs = ps.executeQuery();
+            int count = 0;
+            while (rs.next()){
+                count ++;
+            }
+            rs.close();
+            ps.close();
+            return count;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return -8;
+        }
+    }
 }

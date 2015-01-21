@@ -1,6 +1,7 @@
 package ru.darvell.meetingserver.app;
 
 
+import ru.darvell.meetingserver.servlets.ParamsMask;
 import ru.darvell.meetingserver.utils.ResponseParams;
 import ru.darvell.meetingserver.workers.FriendsWorker;
 import ru.darvell.meetingserver.workers.UserWorker;
@@ -68,15 +69,22 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-        try{
-            FriendsWorker friendsWorker = new FriendsWorker();
-            Map<String, String> map = new HashMap<>();
-            map.put("session_key", "2893dc02b886df1bd046b5741692194e");
-            map.put("action","getFriendRequests");
-            System.out.println(friendsWorker.doAction(map));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            FriendsWorker friendsWorker = new FriendsWorker();
+//            Map<String, String> map = new HashMap<>();
+//            map.put("session_key", "2893dc02b886df1bd046b5741692194e");
+//            map.put("action","getFriendRequests");
+//            System.out.println(friendsWorker.doAction(map));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+//        Map<String, String> map = new HashMap<>();
+//        map.put("login", "login");
+////        map.put("pass", "pass");
+//        map.put("action", "action");
+//        map.put("email", "email");
+//        Map<String, String> result = ParamsMask.checkRegisterParams(map);
 
     }
 }

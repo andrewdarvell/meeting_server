@@ -29,7 +29,10 @@ public class UsersServ extends HttpServlet{
      * -12 - can't set status
      * -13 - can't get status
      * -14 - can't find user
+     * -15 - login exist
+     * -16 - email exist
      * -99 - session_key error
+     * -199 - params error
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,13 +60,13 @@ public class UsersServ extends HttpServlet{
 
     Response registerUser(HttpServletRequest req){
         try {
-            UserWorker userWorker = new UserWorker();
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("login", req.getParameter("login"));
-            map.put("pass", req.getParameter("pass"));
-            map.put("email", req.getParameter("email"));
-            map.put("action", "addUser");
-            return userWorker.doAction(map);
+            Map<String, String> map = ParamsMask.checkRegisterParams(req);
+            if (map != null){
+                UserWorker userWorker = new UserWorker();
+                return userWorker.doAction(map);
+            }else{
+                return new ResponseParams(-199);
+            }
         }catch (Exception e){
             return new ResponseParams(-9);
         }
