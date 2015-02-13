@@ -3,6 +3,7 @@ package ru.darvell.meetingserver.app;
 
 import ru.darvell.meetingserver.servlets.ParamsMask;
 import ru.darvell.meetingserver.utils.ResponseParams;
+import ru.darvell.meetingserver.workers.DebugWorker;
 import ru.darvell.meetingserver.workers.FriendsWorker;
 import ru.darvell.meetingserver.workers.UserWorker;
 
@@ -85,6 +86,15 @@ public class Main {
 //        map.put("action", "action");
 //        map.put("email", "email");
 //        Map<String, String> result = ParamsMask.checkRegisterParams(map);
+
+        try{
+            DebugWorker debugWorker = new DebugWorker();
+            Map<String, String> map = new HashMap<>();
+            map.put("action","getAppInfo");
+            System.out.println(debugWorker.doAction(map));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }

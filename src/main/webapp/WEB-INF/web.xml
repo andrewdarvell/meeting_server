@@ -34,6 +34,11 @@
         <servlet-class>ru.darvell.meetingserver.servlets.FriendsServ</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>debug</servlet-name>
+        <servlet-class>ru.darvell.meetingserver.servlets.DebugServ</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>main</servlet-name>
         <url-pattern>/</url-pattern>
@@ -71,6 +76,11 @@
     <servlet-mapping>
         <servlet-name>schedule</servlet-name>
         <url-pattern>/schedule</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>debug</servlet-name>
+        <url-pattern>/debug</url-pattern>
     </servlet-mapping>
 
 </web-app>
