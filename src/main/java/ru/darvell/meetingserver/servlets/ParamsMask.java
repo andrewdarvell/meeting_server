@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
- * Created by darvell on 21.01.15.
+ * Check parameters from request
  */
 public class ParamsMask {
 
